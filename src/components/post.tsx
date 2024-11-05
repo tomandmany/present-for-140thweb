@@ -53,7 +53,7 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
                     width={370}
                     height={520}
                     className="rounded-xl w-[110px] h-[150px] object-cover absolute top-2 left-2 border-2 border-black cursor-pointer"
-                    onClick={() => setIsBaseImage(!isBaseImage)}
+                    onClick={toggleBaseImage}
                 />
             </div>
         </div>
