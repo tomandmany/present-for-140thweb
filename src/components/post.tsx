@@ -1,15 +1,24 @@
+// components/Post.tsx
+'use client'
 import { Ellipsis } from "lucide-react";
-import Image from "next/image";
+import { useState } from "react";
 
 interface PostProps {
     user_name: string;
     user_icon: string;
     posted_place: string;
     posted_time: string;
-    post_image: string;
+    post_base_image: string;
+    post_inner_image: string;
 }
 
-export default function Post({ user_name, user_icon, posted_place, posted_time, post_image }: PostProps) {
+export default function Post({ user_name, user_icon, posted_place, posted_time, post_base_image, post_inner_image }: PostProps) {
+    const [isBaseImage, setIsBaseImage] = useState(true);
+
+    const toggleImage = () => {
+        setIsBaseImage(!isBaseImage);
+    };
+
     return (
         <div className="w-[370px]">
             <div className="flex items-center gap-3 w-full mb-2 px-4">
@@ -32,13 +41,24 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
                 <Ellipsis className="ml-auto" />
             </div>
             {/* <div className="rounded-xl bg-white w-full h-[520px]" /> */}
-            <img
-                src={`/icons/${user_icon}.jpg`}
-                alt="ユーザーアイコン"
-                width={370}
-                height={520}
-                className="rounded-xl bg-white w-full h-[520px]"
-            />
+            <div className="relative">
+                <img
+                    src={isBaseImage ? `/posts/${post_base_image}.jpg` : `/posts/${post_inner_image}.jpg`}
+                    alt="投稿画像"
+                    width={370}
+                    height={520}
+                    className="rounded-xl w-full h-[520px] object-cover cursor-pointer"
+                    onClick={toggleImage}
+                />
+                <img
+                    src={`/posts/${post_inner_image}.jpg`}
+                    alt="投稿画像"
+                    width={370}
+                    height={520}
+                    className="rounded-xl w-[110px] h-[150px] object-cover absolute top-2 left-2 border-2 border-black cursor-pointer"
+                    onClick={toggleImage}
+                />
+            </div>
         </div>
     )
 }
