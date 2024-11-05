@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
       >
-        <header className="font-black text-white fixed top-0 left-0 w-full flex items-center justify-center h-20 bg-transparent text-xl">
+        <header className="font-black text-white fixed top-0 left-0 w-full flex items-center justify-center h-20 bg-transparent text-xl z-10">
           WeBeReal.
         </header>
         {children}
