@@ -1,5 +1,6 @@
 // components/Post.tsx
 'use client'
+
 import { Ellipsis } from "lucide-react";
 import { useState } from "react";
 
