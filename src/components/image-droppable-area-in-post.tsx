@@ -13,7 +13,7 @@ export default function ImageDroppableAreaInPost() {
 }
 
 function LeftDroppableArea() {
-  const { isOver, setNodeRef } = useDroppable({
+  const { setNodeRef } = useDroppable({
     id: 'left-droppable-area',
   });
 
@@ -26,7 +26,7 @@ function LeftDroppableArea() {
 }
 
 function RightDroppableArea() {
-  const { isOver, setNodeRef } = useDroppable({
+  const { setNodeRef } = useDroppable({
     id: 'right-droppable-area',
   });
 
