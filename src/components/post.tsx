@@ -61,14 +61,13 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
     };
 
     const mouseSensor = useSensor(MouseSensor, {
-        // Require the mouse to move by 10 pixels before activating
         activationConstraint: {
             distance: 1,
         },
     });
 
     const touchSensor = useSensor(TouchSensor, {
-        activationConstraint: { delay: 80, tolerance: 0 }, // 80ms の遅延後にアクティブ化
+        activationConstraint: { delay: 80, tolerance: 0 },
     });
 
     const sensors = useSensors(
@@ -77,18 +76,18 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
     );
 
     return (
-        <div className="w-[370px]">
+        <div className="w-[100svw] max-w-[390px]">
             <div className="flex items-center gap-3 w-full mb-2 px-4">
                 <img
                     src={`/icons/${user_icon}.jpg`}
                     alt="ユーザーアイコン"
                     width={32}
                     height={32}
-                    className="rounded-full object-cover w-8 min-w-8 max-w-8 h-8 min-h-8 max-h-8"
+                    className="rounded-full object-cover w-8 min-w-8 max-w-8 h-8 min-h-8 max-h-8 select-none pointer-events-none"
                 />
-                <div className="text-xs">
-                    <span className="font-black text-white">{user_name}</span>
-                    <div className="text-gray-400">
+                <div className="h-fit">
+                    <div className="font-black text-white text-sm">{user_name}</div>
+                    <div className="text-gray-300/80 text-xs">
                         <span>{posted_place}</span>
                         ・
                         <span>{posted_time}</span>
@@ -105,7 +104,7 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
                     <img
                         src={isBaseImage ? `/posts/${post_base_image}.jpg` : `/posts/${post_inner_image}.jpg`}
                         alt="ベース画像"
-                        width={370}
+                        width={390}
                         height={520}
                         className="rounded-xl w-full h-[520px] object-cover absolute inset-0"
                     />
