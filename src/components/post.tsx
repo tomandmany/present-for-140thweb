@@ -1,7 +1,6 @@
 // components/Post.tsx
 'use client'
 
-// ファイルのパスのコメントを追加
 import { DndContext, DragEndEvent, DragMoveEvent, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { Ellipsis } from "lucide-react";
 import { useRef, useState } from "react";
@@ -21,6 +20,8 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
     const [isBaseImage, setIsBaseImage] = useState(true);
     const [imagePosition, setImagePosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const cumulativePosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+    const [dropSide, setDropSide] = useState<'left' | 'right'>('left');
+    const postRef = useRef<HTMLDivElement>(null);
 
     const toggleBaseImage = () => {
         setIsBaseImage(!isBaseImage);
@@ -36,8 +37,27 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
-        // ドラッグ終了時に現在の位置を累積位置として保存
-        cumulativePosition.current = { ...imagePosition };
+        const { over } = event;
+
+        if (over) {
+            const postRect = postRef.current?.getBoundingClientRect();
+
+            if (over.id === 'left-droppable-area') {
+                setImagePosition({ x: 0, y: 0 });
+                cumulativePosition.current = { x: 0, y: 0 };
+                setDropSide('left');
+            } else if (over.id === 'right-droppable-area') {
+                if (postRect) {
+                    setImagePosition({ x: postRect.width - 124, y: 0 });
+                    cumulativePosition.current = { x: postRect.width - 124, y: 0 };
+                    setDropSide('right');
+                }
+            }
+        } else {
+            setImagePosition({ x: 0, y: 0 });
+            cumulativePosition.current = { x: 0, y: 0 };
+            setDropSide('left');
+        }
     };
 
     const mouseSensor = useSensor(MouseSensor, {
@@ -76,21 +96,21 @@ export default function Post({ user_name, user_icon, posted_place, posted_time, 
                 </div>
                 <Ellipsis className="ml-auto" />
             </div>
-            <div className="relative">
+            <div className="relative" ref={postRef}>
                 <DndContext
                     onDragMove={handleDragMove}
                     onDragEnd={handleDragEnd}
                     sensors={sensors}
                 >
-                    <ImageDroppableAreaInPost />
                     <img
                         src={isBaseImage ? `/posts/${post_base_image}.jpg` : `/posts/${post_inner_image}.jpg`}
-                        alt="投稿画像"
+                        alt="ベース画像"
                         width={370}
                         height={520}
-                        className="rounded-xl w-full h-[520px] object-cover"
+                        className="rounded-xl w-full h-[520px] object-cover absolute inset-0"
                     />
-                    <InnerImage toggleBaseImage={toggleBaseImage} imagePosition={imagePosition} isBaseImage={isBaseImage} post_base_image={post_base_image} post_inner_image={post_inner_image} />
+                    <ImageDroppableAreaInPost />
+                    <InnerImage dropSide={dropSide} toggleBaseImage={toggleBaseImage} imagePosition={imagePosition} isBaseImage={isBaseImage} post_base_image={post_base_image} post_inner_image={post_inner_image} />
                 </DndContext>
             </div>
         </div>
