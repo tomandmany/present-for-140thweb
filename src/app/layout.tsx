@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Camera } from "lucide-react";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,11 +20,11 @@ export const metadata: Metadata = {
   description: "140thWeb部門の思い出が詰まったアプリ",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ja">
       <body
@@ -32,6 +34,11 @@ export default function RootLayout({
           WeBeReal.
         </header>
         {children}
+        <footer className="w-full bg-transparent h-[70px] fixed bottom-0 left-0 flex justify-center items-center">
+          <Link href="/camera" className="text-white border-2 rounded-full p-3">
+            <Camera />
+          </Link>
+        </footer>
       </body>
     </html>
   );

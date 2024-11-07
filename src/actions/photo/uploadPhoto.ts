@@ -2,6 +2,7 @@
 'use server';
 
 import { supabase } from '@/lib/supabaseClient';
+import { revalidatePath } from 'next/cache';
 
 export default async function uploadPhoto(big_photo: string, small_photo: string, user_id: string) {
     try {
@@ -48,6 +49,8 @@ export default async function uploadPhoto(big_photo: string, small_photo: string
         if (insertError) {
             throw insertError;
         }
+
+        revalidatePath('/');
 
         console.log('画像が保存されました');
     } catch (error) {
