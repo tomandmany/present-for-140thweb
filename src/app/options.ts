@@ -3,13 +3,20 @@ import InsertUser from '@/actions/insertUser';
 import { NextAuthOptions } from 'next-auth';
 import LineProvider from 'next-auth/providers/line';
 
+const clientId = process.env.LINE_CLIENT_ID;
+const clientSecret = process.env.LINE_CLIENT_SECRET;
+
+if (!clientId || !clientSecret) {
+  throw new Error("LINE_CLIENT_ID or LINE_CLIENT_SECRET is not defined");
+}
+
 const authOptions: NextAuthOptions = {
   debug: true,
   session: { strategy: 'jwt' },
   providers: [
     LineProvider({
-      clientId: process.env.LINE_CLIENT_ID!,
-      clientSecret: process.env.LINE_CLIENT_SECRET!,
+      clientId: clientId,
+      clientSecret: clientSecret,
     }),
   ],
   callbacks: {
