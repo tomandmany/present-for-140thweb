@@ -32,7 +32,7 @@ export default async function Home() {
         <div className="flex flex-col gap-8 pb-10">
           {
             posts.map((post) => {
-              return <Post key={post.id} user_id={post.user_id} user_public_id={user.user_public_id} user_icon={user.user_icon_url} post_id={post.id} posted_place={post.posted_place} posted_time={post.posted_time} post_big_image={post.post_big_image} post_small_image={post.post_small_image} />
+              return <Post key={post.id} user_id={post.user_id} user_public_id={user.user_public_id} user_icon={user.user_icon_url} posted_place={post.posted_place} posted_time={post.posted_time} post_big_image={post.post_big_image} post_small_image={post.post_small_image} />
             })
           }
         </div>

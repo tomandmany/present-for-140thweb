@@ -1,5 +1,4 @@
 // components/post/post.tsx
-'use client'
 import { Ellipsis } from "lucide-react";
 import PostImageContainer from "./image/post-image-container";
 import PostUserIcon from "@/components/post/post-user-icon";
@@ -8,14 +7,14 @@ interface PostProps {
     user_id: string;
     user_public_id: string;
     user_icon: string;
-    post_id: string;
+    // post_id: string;
     posted_place: string | null;
     posted_time: string;
     post_big_image: string;
     post_small_image: string;
 }
 
-export default function Post({ user_id, user_public_id, user_icon, post_id, posted_place, posted_time, post_big_image, post_small_image }: PostProps) {
+export default function Post({ user_id, user_public_id, user_icon, posted_place, posted_time, post_big_image, post_small_image }: PostProps) {
     // const deletePhoto = async () => {
     //     const response = await deletePhoto();
     //     if (response.error) {
