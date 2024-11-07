@@ -1,6 +1,6 @@
 // components/post/post.tsx
 'use client'
-import { Ellipsis, X } from "lucide-react";
+import { Ellipsis } from "lucide-react";
 import PostImageContainer from "./image/post-image-container";
 import PostUserIcon from "@/components/post/post-user-icon";
 
