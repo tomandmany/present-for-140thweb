@@ -15,7 +15,7 @@ export default async function uploadPhoto(big_photo: string, small_photo: string
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // :や.を-に置換
         const fileName = `${user_id}/${timestamp}.png`;
 
-        const { data: bigImageData, error: baseImageError } = await supabase.storage
+        const { error: baseImageError } = await supabase.storage
             .from('posts')
             .upload(`big/${fileName}`, big_photo_blob, {
                 cacheControl: '3600',
@@ -27,7 +27,7 @@ export default async function uploadPhoto(big_photo: string, small_photo: string
             throw baseImageError;
         }
 
-        const { data: smallImageData, error: smallImageError } = await supabase.storage
+        const { error: smallImageError } = await supabase.storage
             .from('posts')
             .upload(`small/${fileName}`, small_photo_blob, {
                 cacheControl: '3600',

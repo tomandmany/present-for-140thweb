@@ -5,11 +5,17 @@ interface UserData {
   data: User | null;
 }
 
-export default async function InsertUser(signInUser: any): Promise<UserData> {
+interface SignInUser {
+  user_id: string;
+  user_name?: string | null;
+  user_icon_url?: string | null;
+}
+
+export default async function InsertUser({user_id, user_name, user_icon_url}: SignInUser): Promise<UserData> {
   const { data, error } = await supabase.from('users').insert({
-    id: signInUser.id,
-    user_name: signInUser.name || '名無しさん',
-    user_icon_url: signInUser.image || '',
+    id: user_id,
+    user_name: user_name || '名無しさん',
+    user_icon_url: user_icon_url || '',
     user_public_id: generateRandomString(8),
   });
 

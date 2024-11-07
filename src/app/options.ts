@@ -1,6 +1,5 @@
 // ファイルパス: app/options.ts
 import InsertUser from '@/actions/insertUser';
-import getUser from '@/data/getUser';
 import { NextAuthOptions } from 'next-auth';
 import LineProvider from 'next-auth/providers/line';
 
@@ -16,8 +15,11 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       if (user.id) {
-        await InsertUser(user);
-        // 
+        await InsertUser({
+          user_id: user.id,
+          user_name: user.name,
+          user_icon_url: user.image,
+        }); // ユーザー情報をDBに保存
       }
       return true; // サインインを許可
     },
