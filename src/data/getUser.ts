@@ -4,11 +4,11 @@ interface UserData {
   data: User | null;
 }
 
-export async function getUserData(user_private_id: string): Promise<UserData> {
+export default async function getUser(id: string): Promise<UserData> {
   const { data, error } = await supabase
     .from('users')
     .select('*')
-    .eq('user_private_id', user_private_id)
+    .eq('id', id)
     .single(); // 単一のレコードを取得する
 
   if (error) {

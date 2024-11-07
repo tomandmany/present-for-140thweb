@@ -1,22 +1,26 @@
-// 'use client'
-// import { Button } from "@/components/ui/button";
-// import { signIn } from "next-auth/react";
+// @/app/sign-in
 
-// export default async function Home() {
-//   return (
-//     <main className="flex min-h-[calc(100svh-(84px+20px))] flex-col items-center justify-center">
-//       <Button
-//         className="block px-4 rounded-md w-fit mx-auto text-white"
-//         onClick={() => signIn('line', { callbackUrl: '/' })}
-//       >
-//         WeBeRealな生活を始める
-//       </Button>
-//     </main>
-//   )
-// }
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/options";
+import { redirect } from "next/navigation";
+import SignInButton from "@/components/auth/sign-in-button";
+import getUser from "@/data/getUser";
 
-export default function Page() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    const sessionUserId = session.user.id;
+    const response = await getUser(sessionUserId);
+
+    if (response.data) {
+      redirect("/");
+    }
+  }
+
   return (
-    <div></div>
+    <main className="flex min-h-[100svh] items-center justify-center">
+      <SignInButton />
+    </main>
   )
 }

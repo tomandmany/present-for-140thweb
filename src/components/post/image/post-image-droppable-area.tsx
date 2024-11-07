@@ -1,4 +1,4 @@
-// app/components/image-droppable-area-in-post.tsx
+// @/components/post/image/post-image-droppable-area.tsx
 'use client'
 
 import { useDroppable } from '@dnd-kit/core';

@@ -1,6 +1,6 @@
 // ファイルパス: app/options.ts
-import { supabase } from '@/lib/supabaseClient';
-import generateRandomString from '@/utils/randomString';
+import InsertUser from '@/actions/insertUser';
+import getUser from '@/data/getUser';
 import { NextAuthOptions } from 'next-auth';
 import LineProvider from 'next-auth/providers/line';
 
@@ -16,18 +16,8 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       if (user.id) {
-        const user_id = user.id; // LINEから返されたユーザーIDを取得
-        try {
-          await supabase.from('users').insert({
-            user_name: user.name || '名無しさん',
-            user_icon_url: user.image || '',
-            user_private_id: user_id,
-            user_public_id: generateRandomString(8),
-          });
-        } catch (error) {
-          console.error("ユーザーの保存中にエラーが発生しました:", error);
-          return false; // ログインをキャンセル
-        }
+        await InsertUser(user);
+        // 
       }
       return true; // サインインを許可
     },
@@ -39,8 +29,9 @@ const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token.id) {
-        (session.user as { user_id?: string }).user_id = token.id as string; // セッションのユーザーにIDを追加
+        (session.user as { id?: string }).id = token.id as string; // セッションのユーザーにIDを追加
       }
+      // console.log('セッション情報:', session);
       return session;
     },
   },
